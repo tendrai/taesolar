@@ -101,6 +101,7 @@
       <a class="nl" href="residential.html" data-i18n="nav.residential">Residential</a>
       <a class="nl" href="commercial.html" data-i18n="nav.commercial">Commercial</a>
       <a class="nl" href="#calculator" data-i18n="nav.calculator">Savings Calculator</a>
+      <a class="nl mobile-only" href="roof.html" data-i18n="nav.roof">Measure Roof or Land</a>
       <a class="nl" href="about.html" data-i18n="nav.about">About</a>
       <a class="nl" href="blog/index.html" data-i18n="nav.blog">Blog</a>
       <a class="nl" href="contact.html" data-i18n="nav.contact">Contact</a>
@@ -173,7 +174,7 @@
         <p class="sub" data-i18n="hero.sub">Local, accountable and here for the long term. Custom solar installations, upgrades and maintenance for homes and businesses across Phuket and southern Thailand.</p>
         <div class="cta-row">
           <a class="btn btn-gold btn-lg" href="contact.html" data-i18n="hero.cta1">Get a Free Quote</a>
-          <a class="btn btn-ghost btn-lg" href="#calculator" data-i18n="hero.cta2">Calculate My Savings</a>
+          <a class="btn btn-ghost btn-lg" href="roof.html" data-i18n="hero.cta2">Measure My Roof or Land</a>
         </div>
         <div class="hero-trust">
           <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg><span data-i18n="hero.t1">Established 2020 · Phuket office</span></div>
@@ -299,6 +300,7 @@
           <div class="ctrl">
             <label><span data-i18n="calc.size">System size</span><span class="val" id="v-size">5 kWp</span></label>
             <input type="range" id="c-size" min="1" max="20" step="0.5" value="5" />
+            <p class="calc-rec" id="v-rec" hidden><span></span><button type="button" data-i18n="calc.rec.use">Use this</button></p>
           </div>
 
           <div class="ctrl">
@@ -314,6 +316,12 @@
             <input type="checkbox" id="c-battery" style="width:18px;height:18px;accent-color:#0E4CB0" />
             <label for="c-battery" class="fl" style="margin:0" data-i18n="calc.battery">Include battery storage</label>
           </div>
+
+          <div class="ctrl">
+            <label class="fl" for="c-currency" data-i18n="calc.currency">Show figures in</label>
+            <select id="c-currency" class="calc-currency" autocomplete="off"></select>
+            <p class="calc-fx" id="calc-fx" data-i18n="calc.fx" hidden>Converted at today's exchange rate, for reference only. Systems are quoted and paid for in Thai baht.</p>
+          </div>
         </div>
 
         <div class="calc-results">
@@ -321,6 +329,10 @@
             <div class="k" data-i18n="calc.r.saving">Estimated saving in year 1</div>
             <div class="v" id="r-saving">฿0</div>
             <div class="sub"><span data-i18n="calc.r.gen">Estimated annual generation</span>: <span id="r-gen">0 kWh</span></div>
+          </div>
+          <div class="calc-warn" id="calc-warn" role="status" aria-live="polite" hidden>
+            <p class="calc-warn-text"></p>
+            <button type="button" class="btn btn-gold btn-sm"></button>
           </div>
           <div class="res-rows">
             <div class="res-row"><span class="k" data-i18n="calc.r.cost">Indicative system cost</span><span class="v" id="r-cost">฿0</span></div>
@@ -332,6 +344,14 @@
           <a class="btn btn-gold btn-block mt-2" href="contact.html" data-i18n="calc.cta">Get an exact quote</a>
         </div>
       </div>
+    </div>
+
+    <div class="roof-cta reveal">
+      <div>
+        <h3 data-i18n="roof.cta.h">Not sure what actually fits on your roof or land?</h3>
+        <p data-i18n="roof.cta.p">Trace it on a satellite map — roof, garden or plot — and we'll size the system against the space you really have, not a guess. Takes about a minute.</p>
+      </div>
+      <a class="btn btn-gold" href="roof.html" data-i18n="roof.cta.btn">Measure my roof</a>
     </div>
   </div>
 </section>
@@ -535,6 +555,7 @@
           <li><a href="residential.html" data-i18n="nav.residential">Residential</a></li>
           <li><a href="commercial.html" data-i18n="nav.commercial">Commercial</a></li>
           <li><a href="index.html#calculator" data-i18n="nav.calculator">Savings Calculator</a></li>
+        <li><a href="roof.html" data-i18n="nav.roof">Measure Roof or Land</a></li>
           <li><a href="about.html" data-i18n="nav.about">About</a></li>
           <li><a href="blog/index.html" data-i18n="nav.blog">Blog</a></li>
         </ul>

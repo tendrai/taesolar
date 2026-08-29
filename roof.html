@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Measure Your Roof, Garden or Land for Solar | Phuket | TAE Solar</title>
+<meta name="description" content="Trace your roof, garden or plot of land on a satellite map and see exactly how much solar it can carry — panel count, maximum system size, cost and savings. Free, instant, no sign-up. Phuket and southern Thailand." />
+<meta name="theme-color" content="#0A3D91" />
+<link rel="canonical" href="https://www.taesolar.net/roof.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Measure Your Roof, Garden or Land for Solar | TAE Solar" />
+<meta property="og:description" content="Trace your roof, garden or land on a satellite map and see how much solar it can physically carry, then what it would save you." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/vendor/leaflet.css" />
+<link rel="stylesheet" href="assets/css/site.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"TAE Solar Roof Measurement Tool",
+"applicationCategory":"UtilitiesApplication","operatingSystem":"Any modern web browser",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"THB"},
+"provider":{"@type":"LocalBusiness","name":"TAE Solar","@id":"https://www.taesolar.net/#business"},
+"description":"Trace a roof outline on satellite imagery to calculate its area, the number of solar panels it can hold, the maximum system size in kWp, and the resulting cost and savings for properties in Phuket and southern Thailand."}
+</script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<header class="site solid">
+  <div class="wrap bar">
+    <a href="index.html" class="logo" aria-label="TAE Solar — home">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="9" fill="#F5B71E"/><g stroke="#F5B71E" stroke-width="2.4" stroke-linecap="round"><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.9 9.9l4.2 4.2M33.9 33.9l4.2 4.2M38.1 9.9l-4.2 4.2M14.1 33.9l-4.2 4.2"/></g></svg>
+      <span>TAE<b>SOLAR</b></span>
+    </a>
+    <nav class="main" id="nav">
+      <a class="nl" href="residential.html" data-i18n="nav.residential">Residential</a>
+      <a class="nl" href="commercial.html" data-i18n="nav.commercial">Commercial</a>
+      <a class="nl" href="index.html#calculator" data-i18n="nav.calculator">Savings Calculator</a>
+      <a class="nl mobile-only active" href="roof.html" data-i18n="nav.roof">Measure Roof or Land</a>
+      <a class="nl" href="about.html" data-i18n="nav.about">About</a>
+      <a class="nl" href="blog/index.html" data-i18n="nav.blog">Blog</a>
+      <a class="nl" href="contact.html" data-i18n="nav.contact">Contact</a>
+      <a class="btn btn-gold" href="contact.html" data-i18n="nav.quote">Get a Quote</a>
+    </nav>
+    <div class="header-tools">
+      <div class="lang">
+        <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
+          <span data-lang-current>🇬🇧 English</span>
+        </button>
+        <div class="lang-menu" role="menu"></div>
+      </div>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="scrim" id="scrim"></div>
+
+<main id="main">
+
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="index.html" data-i18n="nav.home">Home</a> / <span data-i18n="roof.eyebrow">Roof and Land Measurement</span></div>
+    <h1 data-i18n="roof.h1">Measure your roof, garden or land</h1>
+    <p data-i18n="roof.lead">Trace your roof, garden or plot of land on the satellite view and we'll tell you how much solar it can physically carry — then feed that straight into the savings calculator.</p>
+  </div>
+</section>
+
+<!-- ============================ ROOF TOOL =========================== -->
+<section class="section soft">
+  <div class="wrap">
+    <ol class="roof-steps reveal">
+      <li><span class="n">1</span><p data-i18n="roof.s1">Find your property on the map. Use the location button, or pinch and drag to it.</p></li>
+      <li><span class="n">2</span><p data-i18n="roof.s2">Tap each corner in turn to trace the outline. Drag a point to adjust it, or tap a point to remove it.</p></li>
+      <li><span class="n">3</span><p data-i18n="roof.s3">Read your maximum system size, then scroll down for the savings that size would produce.</p></li>
+    </ol>
+
+    <div class="calc reveal" id="roof">
+      <div class="roof-grid">
+        <div class="roof-mapwrap">
+          <div class="roof-search">
+            <label class="fl" for="roof-q" data-i18n="roof.search.label">Find your property</label>
+            <div class="roof-search-row">
+              <input type="search" id="roof-q" autocomplete="off" role="combobox"
+                     aria-expanded="false" aria-controls="roof-results" aria-describedby="roof-qnote"
+                     data-i18n-ph="roof.search.ph" placeholder="Address, area or postcode — e.g. Kathu 83120" />
+              <button type="button" class="btn btn-blue btn-sm" id="roof-qbtn" data-i18n="roof.search.btn">Search</button>
+            </div>
+            <div class="roof-results" id="roof-results" role="listbox" hidden></div>
+            <p class="roof-locnote" id="roof-qnote" role="status" aria-live="polite"></p>
+          </div>
+
+          <div id="roof-map" class="roof-map"></div>
+          <div class="roof-tools">
+            <button type="button" class="btn btn-outline btn-sm" id="roof-locate" data-i18n="roof.locate">Use my location</button>
+            <button type="button" class="btn btn-outline btn-sm" id="roof-undo" data-i18n="roof.undo" disabled>Undo point</button>
+            <button type="button" class="btn btn-outline btn-sm" id="roof-clear" data-i18n="roof.clear" disabled>Start again</button>
+          </div>
+          <p class="roof-locnote" id="roof-locnote" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="roof-side">
+          <div class="ctrl">
+            <label class="fl" data-i18n="roof.kind">Surface type</label>
+            <div class="seg seg-3" data-seg="roofkind">
+              <button type="button" data-val="pitched" aria-pressed="true" data-i18n="roof.kind.pitched">Pitched roof</button>
+              <button type="button" data-val="flat" aria-pressed="false" data-i18n="roof.kind.flat">Flat roof</button>
+              <button type="button" data-val="ground" aria-pressed="false" data-i18n="roof.kind.ground">Garden or land</button>
+            </div>
+          </div>
+
+          <p class="roof-empty" id="roof-empty" data-i18n="roof.empty">Tap the corners of your roof, garden or land on the map above to begin — three points or more.</p>
+
+          <div id="roof-out" hidden>
+            <div class="result-hero">
+              <div class="k" data-i18n="roof.r.kwp">Maximum system size</div>
+              <div class="v" id="r-kwp">0 kWp</div>
+              <div class="sub"><span data-i18n="roof.r.panels">Panels that fit</span>: <span id="r-panels">0</span></div>
+            </div>
+            <div class="res-rows">
+              <div class="res-row"><span class="k" data-i18n="roof.r.area">Area traced</span><span class="v" id="r-area">0 m²</span></div>
+              <div class="res-row"><span class="k" data-i18n="roof.r.usable">Usable panel area</span><span class="v" id="r-usable">0 m²</span></div>
+            </div>
+          </div>
+
+          <p class="disclaimer" data-i18n="roof.disclaimer">This measures the outline you traced. It can't see shading from trees or neighbouring buildings, ground or roof condition, structural capacity, water tanks and vents, or which way each surface faces — all of which change what is actually installable. The free site survey covers every one of them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CALCULATOR ========================== -->
+<section class="section" id="calculator">
+  <div class="wrap">
+    <div class="head-center reveal">
+      <span class="eyebrow gold" data-i18n="calc.eyebrow">Savings Calculator</span>
+      <h2 class="mt-1" data-i18n="roof.next">What a system that size would save you</h2>
+      <p class="lead" data-i18n="calc.lead">Adjust the sliders for a quick, honest estimate based on real Thai electricity rates and Phuket sunshine levels.</p>
+    </div>
+
+    <div class="calc reveal" id="calc">
+      <div class="calc-grid">
+        <div class="calc-inputs">
+          <div class="ctrl">
+            <label class="fl" data-i18n="calc.type">Property type</label>
+            <div class="seg" data-seg="type">
+              <button type="button" data-val="res" aria-pressed="true" data-i18n="calc.res">Home</button>
+              <button type="button" data-val="com" aria-pressed="false" data-i18n="calc.com">Business</button>
+            </div>
+          </div>
+
+          <div class="ctrl">
+            <label><span data-i18n="calc.bill">Your average monthly electricity bill</span><span class="val" id="v-bill">฿4,000</span></label>
+            <input type="range" id="c-bill" min="1000" max="60000" step="500" value="4000" />
+          </div>
+
+          <div class="ctrl">
+            <label><span data-i18n="calc.size">System size</span><span class="val" id="v-size">5 kWp</span></label>
+            <input type="range" id="c-size" min="1" max="20" step="0.5" value="5" />
+            <p class="calc-rec" id="v-rec" hidden><span></span><button type="button" data-i18n="calc.rec.use">Use this</button></p>
+          </div>
+
+          <div class="ctrl">
+            <label class="fl" data-i18n="calc.usage">When do you use most power?</label>
+            <div class="seg" data-seg="usage" style="grid-template-columns:repeat(3,1fr)">
+              <button type="button" data-val="day" aria-pressed="false" data-i18n="calc.usage.day">Mostly daytime</button>
+              <button type="button" data-val="mixed" aria-pressed="true" data-i18n="calc.usage.mixed">Mixed</button>
+              <button type="button" data-val="night" aria-pressed="false" data-i18n="calc.usage.night">Mostly evening</button>
+            </div>
+          </div>
+
+          <div class="ctrl" style="display:flex;align-items:center;gap:10px">
+            <input type="checkbox" id="c-battery" style="width:18px;height:18px;accent-color:#0E4CB0" />
+            <label for="c-battery" class="fl" style="margin:0" data-i18n="calc.battery">Include battery storage</label>
+          </div>
+
+          <div class="ctrl">
+            <label class="fl" for="c-currency" data-i18n="calc.currency">Show figures in</label>
+            <select id="c-currency" class="calc-currency" autocomplete="off"></select>
+            <p class="calc-fx" id="calc-fx" data-i18n="calc.fx" hidden>Converted at today's exchange rate, for reference only. Systems are quoted and paid for in Thai baht.</p>
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <div class="result-hero">
+            <div class="k" data-i18n="calc.r.saving">Estimated saving in year 1</div>
+            <div class="v" id="r-saving">฿0</div>
+            <div class="sub"><span data-i18n="calc.r.gen">Estimated annual generation</span>: <span id="r-gen">0 kWh</span></div>
+          </div>
+          <div class="calc-warn" id="calc-warn" role="status" aria-live="polite" hidden>
+            <p class="calc-warn-text"></p>
+            <button type="button" class="btn btn-gold btn-sm"></button>
+          </div>
+          <p class="roof-note" id="calc-roofnote" role="status" aria-live="polite" hidden></p>
+          <div class="res-rows">
+            <div class="res-row"><span class="k" data-i18n="calc.r.cost">Indicative system cost</span><span class="v" id="r-cost">฿0</span></div>
+            <div class="res-row"><span class="k" data-i18n="calc.r.payback">Estimated payback</span><span class="v" id="r-payback">—</span></div>
+            <div class="res-row"><span class="k" data-i18n="calc.r.bill">New estimated monthly bill</span><span class="v" id="r-bill">฿0</span></div>
+            <div class="res-row"><span class="k" data-i18n="calc.r.25">Estimated 25-year saving</span><span class="v" id="r-25">฿0</span></div>
+          </div>
+          <p class="disclaimer" data-i18n="calc.disclaimer">Guidelines only. These figures are indicative estimates based on typical Phuket conditions, current published tariffs and standard equipment. Your actual generation, savings and cost depend on your roof, shading, usage pattern and the equipment specified. We'll give you exact figures after a free site survey.</p>
+          <a class="btn btn-gold btn-block mt-2" href="contact.html" data-i18n="calc.cta">Get an exact quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="logo"><svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="9" fill="#F5B71E"/><g stroke="#F5B71E" stroke-width="2.4" stroke-linecap="round"><path d="M24 4v6M24 38v6M4 24h6M38 24h6M9.9 9.9l4.2 4.2M33.9 33.9l4.2 4.2M38.1 9.9l-4.2 4.2M14.1 33.9l-4.2 4.2"/></g></svg><span>TAE<b>SOLAR</b></span></div>
+        <p data-i18n="foot.blurb">Custom solar solutions for homes and businesses across Phuket and southern Thailand. Honest advice, quality workmanship and long-term support.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/taesolar" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+          <a href="#" data-line target="_blank" rel="noopener" aria-label="LINE"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.3 7.9.3.1.7.2.8.5.1.3.1.7 0 1l-.1.8c0 .3-.2 1 .9.6 1.1-.5 6-3.5 8.2-6C21.4 14.1 22 12.6 22 11c0-4.4-4.5-8-10-8z"/></svg></a>
+        </div>
+      </div>
+      <div><h4 data-i18n="foot.explore">Explore</h4><ul>
+        <li><a href="residential.html" data-i18n="nav.residential">Residential</a></li>
+        <li><a href="commercial.html" data-i18n="nav.commercial">Commercial</a></li>
+        <li><a href="index.html#calculator" data-i18n="nav.calculator">Savings Calculator</a></li>
+        <li><a href="roof.html" data-i18n="nav.roof">Measure Roof or Land</a></li>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+        <li><a href="blog/index.html" data-i18n="nav.blog">Blog</a></li></ul></div>
+      <div><h4 data-i18n="foot.contact">Contact</h4><ul>
+        <li><a href="tel:+44-98-790-6758">Sales: 098-790-6758</a></li>
+        <li><a href="tel:+44-93-481-2093">Tech: 093-481-2093</a></li>
+        <li><a href="mailto:info@taesolar.net">info@taesolar.net</a></li>
+        <li>Kathu, Phuket 82120</li></ul></div>
+      <div><h4 data-i18n="foot.legal">Legal</h4><ul>
+        <li><a href="#" data-i18n="foot.privacy">Privacy policy</a></li>
+        <li><a href="#" data-i18n="foot.terms">Terms of service</a></li>
+        <li data-i18n="foot.company">TAE 2020 (Thailand) Ltd.</li></ul></div>
+    </div>
+    <div class="bottom">
+      <span>© <span id="yr"></span> TAE 2020 (Thailand) Ltd. <span data-i18n="foot.rights">All rights reserved.</span></span>
+      <span>Solar installation · Phuket, Thailand</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-cta">
+  <a class="btn btn-outline" href="tel:+44-98-790-6758"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="mob.call">Call</span></a>
+  <a class="btn btn-gold" href="contact.html" data-i18n="mob.quote">Free Quote</a>
+</div>
+
+<script src="assets/vendor/leaflet.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/roof.js"></script>
+</body>
+</html>

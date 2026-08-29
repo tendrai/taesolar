@@ -28,6 +28,13 @@ const SOLAR = {
   // Battery storage adds roughly this much per kWp of system size (THB).
   batteryPerKw: 24000,
 
+  // Ground-mounted arrays cost more than the same kWp on a roof: frames and
+  // foundations instead of using the building's structure, groundworks, longer
+  // cable runs back to the house, and usually fencing. The cost anchors above
+  // are rooftop figures, so a garden or land install is scaled by this.
+  // ESTIMATE — check it against your own ground-mount jobs.
+  groundCostFactor: 1.15,
+
   // Share of TOTAL household/business consumption that happens during solar
   // hours. This is the figure that actually governs how much of your own
   // generation you can use — and therefore how big a system is worth building.
@@ -51,11 +58,106 @@ function costForSize(kw){
   return Math.round(kw * (last[1]/last[0]));
 }
 
-function fmtTHB(n){
-  return '฿' + Math.round(n).toLocaleString('en-US');
-}
+/* --------------------------------------------------------------------------
+   CURRENCY  ***EDIT THESE IN ONE PLACE***
+   --------------------------------------------------------------------------
+   Phuket has a large expat and second-home market, so the figures need to be
+   readable in the money people actually think in. Everything is computed in
+   baht and converted only for display — quotes are still issued in THB, and
+   the panel says so.
+   -------------------------------------------------------------------------- */
+const CURRENCY = {
+  list: ['THB','USD','EUR','GBP','RUB','CNY','AUD','SGD','SEK'],
+  symbol: { THB:'฿', USD:'$', EUR:'€', GBP:'£', RUB:'₽', CNY:'¥', AUD:'A$', SGD:'S$', SEK:'kr ' },
+
+  // 1 THB = X. Live rates are fetched once and cached; this table is the
+  // fallback so the page still works if that call fails or the visitor is
+  // offline. Snapshot taken 29 Aug 2026 — refresh it occasionally.
+  fallback: { THB:1, USD:0.030281, EUR:0.02608, GBP:0.022347, RUB:2.610969,
+              CNY:0.204521, AUD:0.042212, SGD:0.038563, SEK:0.289562 },
+
+  api: 'https://open.er-api.com/v6/latest/THB',
+  storeKey: 'tae.currency',
+  cacheKey: 'tae.fx',
+  cacheHours: 12
+};
+
+const Money = (() => {
+  let current = 'THB';
+  let rates = Object.assign({}, CURRENCY.fallback);
+  let isLive = false;
+
+  // localStorage throws in some privacy modes — never let that break the page.
+  function store(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+  function read(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+
+  function apply(json){
+    if(!json || !json.rates) return false;
+    CURRENCY.list.forEach(c => { if(typeof json.rates[c] === 'number') rates[c] = json.rates[c]; });
+    isLive = true;
+    return true;
+  }
+
+  async function refresh(){
+    const cached = read(CURRENCY.cacheKey);
+    if(cached){
+      try {
+        const j = JSON.parse(cached);
+        if(Date.now() - j.at < CURRENCY.cacheHours * 3600e3 && apply(j.data)) return;
+      } catch(e){}
+    }
+    try {
+      const res = await fetch(CURRENCY.api);
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if(apply(data)){
+        store(CURRENCY.cacheKey, JSON.stringify({ at: Date.now(), data: { rates: data.rates } }));
+        document.dispatchEvent(new CustomEvent('currencychange'));
+      }
+    } catch(e){
+      // Keep the fallback table. Nothing to tell the visitor — the numbers
+      // are still right to within a few percent.
+    }
+  }
+
+  function set(c){
+    if(!CURRENCY.list.includes(c)) return;
+    current = c;
+    store(CURRENCY.storeKey, c);
+    document.dispatchEvent(new CustomEvent('currencychange'));
+  }
+
+  function fmt(thb){
+    const v = thb * (rates[current] || 1);
+    // Sub-unit precision is noise on a system price; keep whole units.
+    return (CURRENCY.symbol[current] || '') + Math.round(v).toLocaleString('en-US');
+  }
+
+  function init(){
+    const saved = read(CURRENCY.storeKey);
+    if(saved && CURRENCY.list.includes(saved)) current = saved;
+    refresh();
+  }
+
+  return { init, set, fmt, get code(){ return current; }, get live(){ return isLive; } };
+})();
+
+function fmtTHB(n){ return Money.fmt(n); }
+
+// Always baht, whatever the visitor is viewing in — this is what goes to
+// sales, and a quote denominated in pounds would be wrong.
+function fmtBaht(n){ return '฿' + Math.round(n).toLocaleString('en-US'); }
 function fmtNum(n, dp){
   return Number(n).toLocaleString('en-US', {minimumFractionDigits:dp||0, maximumFractionDigits:dp||0});
+}
+
+/* Translate and interpolate. Replaces EVERY occurrence of each placeholder —
+   String.replace with a string pattern only swaps the first, which silently
+   leaves a raw {token} on screen when a message uses one twice. */
+function tf(key, vars){
+  let s = I18n.t(key);
+  for(const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+  return s;
 }
 
 /* --- Calculator ----------------------------------------------------------- */
@@ -64,7 +166,8 @@ function initCalculator(){
   if(!root) return;
 
   const el = id => root.querySelector('#'+id);
-  const state = { type:'res', bill:4000, size:5, usage:'mixed', battery:false, sizeTouched:false };
+  const state = { type:'res', bill:4000, size:5, usage:'mixed', battery:false, sizeTouched:false,
+                  roofLimit:null };
 
   const billEl = el('c-bill'), sizeEl = el('c-size'), batteryEl = el('c-battery');
 
@@ -79,14 +182,26 @@ function initCalculator(){
 
   // Right-size to the load you can actually use, not to the biggest array
   // that fits — oversizing beyond your own daytime demand earns little back.
-  function recommendedSize(){
+  function loadDrivenSize(){
     const ideal = usableLoadKwh() / SOLAR.yield;
     return Math.min(Math.max(Math.round(ideal*2)/2, 1), state.type==='res' ? 20 : 100);
   }
 
-  function compute(){
+  // Two independent ceilings: what your usage justifies, and what your roof
+  // physically holds. The honest recommendation is the smaller of the two —
+  // and when the roof is the binding one, say so rather than quietly shrinking
+  // the number (see the note rendered below the results).
+  function recommendedSize(){
+    let size = loadDrivenSize();
+    if(state.roofLimit) size = Math.min(size, state.roofLimit.kwp);
+    return Math.max(size, 1);
+  }
+
+  // Takes a size so we can price alternatives (e.g. "what would 5 kWp do?")
+  // without disturbing the visitor's current selection.
+  function compute(sizeOverride){
     const tariff = state.type==='res' ? SOLAR.tariffResidential : SOLAR.tariffCommercial;
-    const size = state.size;
+    const size = sizeOverride === undefined ? state.size : sizeOverride;
     const gen = size * SOLAR.yield;   // kWh/yr
 
     // You can only save money on power you would otherwise have bought.
@@ -97,6 +212,8 @@ function initCalculator(){
     const eligibleExport = (state.type==='res' && size <= SOLAR.exportMaxKw) ? exportKwh : 0;
 
     let cost = costForSize(size);
+    // Traced a garden or a plot rather than a roof? It costs more to build.
+    if(state.roofLimit && state.roofLimit.kind === 'ground') cost *= SOLAR.groundCostFactor;
     if(state.battery) cost += size * SOLAR.batteryPerKw;
 
     const yr1 = selfKwh*tariff + eligibleExport*SOLAR.exportRate;
@@ -113,7 +230,11 @@ function initCalculator(){
     const oldMonthly = state.bill;
     const newMonthly = Math.max(oldMonthly - (selfKwh*tariff)/12, 0);
 
-    return { gen, cost, yr1, payback, total, newMonthly, size };
+    // Units that earn nothing: generated, not self-consumed, not paid for.
+    const wasted = Math.max(gen - selfKwh - eligibleExport, 0);
+
+    return { gen, cost, yr1, payback, total, newMonthly, size, selfKwh, exportKwh,
+             eligibleExport, wasted };
   }
 
   function render(){
@@ -128,14 +249,118 @@ function initCalculator(){
     el('v-bill').textContent = fmtTHB(state.bill);
     el('v-size').textContent = fmtNum(state.size,1).replace('.0','')+' kWp';
 
+    /* --- Is this a system we would actually sell them? -------------------
+       The maths above will happily price an array four times bigger than the
+       customer's demand and report a 40-year payback with a straight face.
+       That is technically correct and commercially useless, so say what has
+       gone wrong and offer the size we would really quote. */
+    const rec  = recommendedSize();
+    const warn = el('calc-warn');
+    let warnShown = false;
+    if(warn){
+      const kwp = n => fmtNum(n,1).replace('.0','') + ' kWp';
+      let msg = null, fixTo = null;
+
+      // The 5 kW cliff first — it is the more specific and more costly error.
+      // Crossing it doesn't taper the export payment, it removes it entirely,
+      // so a bigger array can be worth dramatically LESS.
+      if(state.type === 'res' && state.size > SOLAR.exportMaxKw && r.wasted > 0){
+        const alt = compute(SOLAR.exportMaxKw);
+        if(alt.yr1 > r.yr1){
+          msg = tf('calc.warn.cliff', {
+            cap: kwp(SOLAR.exportMaxKw), wasted: fmtNum(r.wasted),
+            altSave: fmtTHB(alt.yr1),  save: fmtTHB(r.yr1),
+            altCost: fmtTHB(alt.cost), cost: fmtTHB(r.cost)
+          });
+          fixTo = SOLAR.exportMaxKw;
+        }
+      }
+      // Otherwise: generating far more than they can use or be paid for.
+      if(!msg && r.gen > 0 && r.wasted / r.gen > 0.25){
+        msg = tf('calc.warn.oversized', {
+          gen: fmtNum(r.gen), self: fmtNum(r.selfKwh),
+          wasted: fmtNum(r.wasted), rec: kwp(rec)
+        });
+        fixTo = rec;
+      }
+
+      warn.hidden = !msg;
+      warnShown = !!msg;
+      if(msg){
+        warn.querySelector('.calc-warn-text').textContent = msg;
+        const btn = warn.querySelector('button');
+        btn.textContent = tf('calc.warn.fix', {size: kwp(fixTo)});
+        btn.onclick = () => {
+          state.size = fixTo;
+          // Track the recommendation again from here, rather than leaving a
+          // stale manual value to drift as the bill changes.
+          state.sizeTouched = false;
+          sizeEl.value = state.size;
+          render();
+        };
+      }
+    }
+
+    // Always show what we'd recommend, so a manually-set size can never sit
+    // there looking authoritative after the bill has moved underneath it.
+    const recEl = el('v-rec');
+    if(recEl){
+      // Suppressed while the warning is up: that carries its own, more
+      // specific call to action, and two different suggested sizes on screen
+      // at once just makes the visitor distrust both.
+      const differs = Math.abs(rec - state.size) > 0.01 && !warnShown;
+      recEl.hidden = !differs;
+      if(differs){
+        recEl.querySelector('span').textContent =
+          tf('calc.rec', {rec: fmtNum(rec,1).replace('.0','') + ' kWp'});
+        recEl.querySelector('button').onclick = () => {
+          state.size = rec; state.sizeTouched = false; sizeEl.value = rec; render();
+        };
+      }
+    }
+
+    // Where the roof, not the bill, is the limiting factor — say it plainly.
+    const note = document.getElementById('calc-roofnote');
+    if(note){
+      const rl = state.roofLimit;
+      if(rl){
+        const load = loadDrivenSize();
+        const kwp  = fmtNum(rl.kwp,1).replace('.0','');
+        note.hidden = false;
+        note.textContent = rl.kwp < load
+          ? tf('calc.roof.capped', {load: fmtNum(load,1).replace('.0',''),
+                                    roof: kwp, area: fmtNum(rl.area)})
+          : tf('calc.roof.fits',   {roof: kwp, area: fmtNum(rl.area)});
+      } else {
+        note.hidden = true;
+      }
+    }
+
     // Carry the estimate into the quote form so sales gets context
     const ctx = document.getElementById('calc-context');
     if(ctx){
-      ctx.value = `${state.type==='res'?'Home':'Business'} · bill ~${fmtTHB(state.bill)}/mo · ` +
+      ctx.value = `${state.type==='res'?'Home':'Business'} · bill ~${fmtBaht(state.bill)}/mo · ` +
                   `${fmtNum(state.size,1).replace('.0','')} kWp${state.battery?' + battery':''} · ` +
-                  `usage ${state.usage} · est. saving ${fmtTHB(r.yr1)}/yr`;
+                  `usage ${state.usage} · est. saving ${fmtBaht(r.yr1)}/yr` +
+                  (Money.code !== 'THB' ? ` · viewing in ${Money.code}` : '') +
+                  (state.roofLimit
+                    ? ` · traced roof ${fmtNum(state.roofLimit.area)} m² (${state.roofLimit.kind}), ` +
+                      `fits ~${fmtNum(state.roofLimit.kwp,1).replace('.0','')} kWp`
+                    : '');
     }
   }
+
+  // Called by the roof tracing tool (assets/js/roof.js). Pass null to clear.
+  window.Calc = {
+    setRoofLimit(limit){
+      state.roofLimit = limit;
+      if(!state.sizeTouched){ state.size = recommendedSize(); sizeEl.value = state.size; }
+      // A traced roof is hard information — let it pull an over-ambitious
+      // manual size back down rather than leaving an impossible number up.
+      else if(limit && state.size > limit.kwp){ state.size = Math.max(limit.kwp,1); sizeEl.value = state.size; }
+      render();
+    }
+  };
 
   // Segmented controls
   root.querySelectorAll('[data-seg]').forEach(group => {
@@ -163,7 +388,26 @@ function initCalculator(){
   sizeEl.addEventListener('input', () => { state.sizeTouched = true; state.size = +sizeEl.value; render(); });
   if(batteryEl) batteryEl.addEventListener('change', () => { state.battery = batteryEl.checked; render(); });
 
+  // Currency picker — display only. Everything is computed in baht.
+  const curEl = el('c-currency');
+  if(curEl){
+    curEl.innerHTML = CURRENCY.list
+      .map(c => `<option value="${c}">${c}</option>`).join('');
+    curEl.value = Money.code;
+    curEl.addEventListener('change', () => Money.set(curEl.value));
+  }
+
   document.addEventListener('langchange', render);
+  document.addEventListener('currencychange', () => {
+    if(curEl) curEl.value = Money.code;
+    const nb = el('calc-fx');
+    if(nb) nb.hidden = Money.code === 'THB';
+    render();
+  });
+
+  const fxNote = el('calc-fx');
+  if(fxNote) fxNote.hidden = Money.code === 'THB';
+
   state.size = recommendedSize(); sizeEl.value = state.size;
   render();
 }
@@ -245,6 +489,7 @@ function initChrome(){
 
 document.addEventListener('DOMContentLoaded', () => {
   if(typeof I18n !== 'undefined') I18n.init();
+  Money.init();
   initChrome();
   initCalculator();
   initForms();

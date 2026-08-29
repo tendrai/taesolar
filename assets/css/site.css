@@ -210,6 +210,11 @@ header.site.scrolled .burger span,header.site.solid .burger span{background:var(
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg-soft);padding:5px;border-radius:12px;border:1px solid var(--line)}
 .seg button{background:none;border:0;padding:.65rem;border-radius:9px;font-size:.88rem;font-weight:600;color:var(--slate);cursor:pointer;transition:.2s}
 .seg button[aria-pressed="true"]{background:#fff;color:var(--blue-800);box-shadow:var(--shadow-sm)}
+
+/* Three-way surface type (pitched roof / flat roof / garden or land). Sits in
+   a narrow panel, so the labels need room to wrap onto a second line. */
+.seg-3{grid-template-columns:repeat(3,1fr)}
+.seg-3 button{font-size:.8rem;padding:.6rem .35rem;line-height:1.25}
 .ctrl{margin-bottom:20px}
 .ctrl label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-family:'Sora',sans-serif;
   font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:8px}
@@ -448,4 +453,117 @@ footer.site .bottom{display:flex;justify-content:space-between;gap:16px;flex-wra
   .calc-inputs,.calc-results{padding:26px}
   .map-mod .info{padding:28px}
   .rating-sum{padding:12px 20px;gap:1rem}
+}
+
+/* Roof tracing tool -------------------------------------------------------- */
+/* Mirrors the calculator's light-inputs / dark-results split so the two
+   panels read as one continuous tool down the page. */
+.roof-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:0 0 30px;padding:0;list-style:none;counter-reset:none}
+.roof-steps li{display:flex;gap:12px;align-items:flex-start}
+.roof-steps .n{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--blue-900);
+  font-family:'Sora',sans-serif;font-weight:800;font-size:.85rem;display:grid;place-items:center}
+.roof-steps p{margin:0;font-size:.9rem;color:var(--slate);line-height:1.55}
+
+.roof-grid{display:grid;grid-template-columns:1.35fr 1fr}
+/* Grid items default to min-width:auto, so the search input's intrinsic
+   width would push this wider than its parent and get clipped by
+   .calc{overflow:hidden}. Let them shrink. */
+.roof-grid > *{min-width:0}
+.roof-search,.roof-search-row{min-width:0}
+.roof-mapwrap{padding:20px;display:flex;flex-direction:column}
+.roof-map{flex:1;min-height:460px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--bg-soft)}
+.roof-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn-sm{padding:.5rem .9rem;font-size:.82rem}
+.roof-tools .btn:disabled{opacity:.4;cursor:not-allowed}
+.roof-locnote{margin:8px 0 0;font-size:.82rem;color:var(--slate);min-height:1.2em}
+
+/* Address search ---------------------------------------------------------- */
+.roof-search{position:relative;margin-bottom:14px}
+.roof-search .fl{display:block;font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;
+  color:var(--ink);margin-bottom:8px}
+.roof-search-row{display:flex;gap:8px}
+.roof-search input{flex:1;min-width:0;padding:.7rem .95rem;border:1px solid var(--line);border-radius:12px;
+  font-family:inherit;font-size:.92rem;color:var(--ink);background:#fff}
+.roof-search input:focus{outline:none;border-color:var(--blue-700);box-shadow:0 0 0 3px rgba(14,76,176,.14)}
+.roof-search-row .btn{flex:0 0 auto}
+
+.roof-results{position:absolute;left:0;right:0;top:100%;z-index:1100;margin-top:6px;background:#fff;
+  border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-md);overflow:hidden;
+  max-height:260px;overflow-y:auto}
+.roof-results button{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  padding:.7rem .95rem;font-size:.88rem;line-height:1.45;color:var(--ink);border-bottom:1px solid var(--line)}
+.roof-results button:last-of-type{border-bottom:0}
+.roof-results button:hover,.roof-results button.on{background:var(--blue-050);color:var(--blue-800)}
+.roof-credit{display:block;padding:.5rem .95rem;font-size:.72rem;color:var(--slate-light);
+  background:var(--bg-soft);border-top:1px solid var(--line)}
+
+.roof-side{padding:36px;background:linear-gradient(160deg,var(--blue-800),var(--blue-900));color:#fff}
+.roof-side .ctrl label.fl{color:rgba(255,255,255,.9)}
+.roof-side .seg{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18)}
+.roof-side .seg button{color:rgba(255,255,255,.78)}
+.roof-side .seg button[aria-pressed="true"]{background:#fff;color:var(--blue-800)}
+.roof-empty{font-size:.9rem;color:rgba(255,255,255,.78);line-height:1.6;padding:20px 0;border-top:1px solid rgba(255,255,255,.16)}
+
+/* Vertex handles. Note: passing `className` to L.divIcon REPLACES Leaflet's
+   default `leaflet-div-icon` class rather than adding to it, so these must be
+   selected on .roof-handle alone. */
+.roof-handle{background:#fff;border:3px solid var(--gold);border-radius:50%;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);cursor:grab;transition:transform .15s var(--ease)}
+.roof-handle:hover{transform:scale(1.25)}
+.roof-handle:active{cursor:grabbing}
+
+/* Cooperative-gesture hint shown when a plain wheel scroll passes through. */
+.roof-map{position:relative}
+.roof-hint{position:absolute;inset:0;z-index:1000;display:grid;place-items:center;pointer-events:none;
+  background:rgba(6,36,88,.55);color:#fff;font-family:'Sora',sans-serif;font-weight:600;font-size:1rem;
+  text-align:center;padding:20px;opacity:0;transition:opacity .2s var(--ease)}
+.roof-hint.show{opacity:1}
+
+/* Homepage prompt through to the roof tool. */
+.roof-cta{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;
+  margin-top:26px;padding:26px 32px;background:var(--gold-050);border:1px solid rgba(245,183,30,.45);
+  border-radius:var(--radius-lg)}
+.roof-cta h3{font-size:1.15rem}
+.roof-cta p{margin-top:.35rem;color:var(--slate);font-size:.94rem;max-width:60ch}
+.roof-cta .btn{flex:0 0 auto}
+
+/* Oversizing warning + recommended size + currency ------------------------ */
+/* Sits inside .calc-results, which is dark blue. Amber, because it is a
+   "this is the wrong product for you" message, not an error. */
+.calc-warn{margin:0 0 20px;padding:14px 16px;background:rgba(245,183,30,.16);
+  border-left:3px solid var(--gold);border-radius:10px}
+.calc-warn-text{font-size:.84rem;line-height:1.6;color:#fff;margin:0 0 12px}
+.calc-warn .btn{width:100%}
+
+.calc-rec{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:.8rem;color:var(--slate)}
+.calc-rec button{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--blue-700);
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.calc-rec button:hover{color:var(--blue-800)}
+
+.calc-currency{width:100%;padding:.65rem .9rem;border:1px solid var(--line);border-radius:12px;
+  font-family:inherit;font-size:.9rem;color:var(--ink);background:#fff;cursor:pointer}
+.calc-currency:focus{outline:none;border-color:var(--blue-700);box-shadow:0 0 0 3px rgba(14,76,176,.14)}
+.calc-fx{margin-top:8px;font-size:.76rem;line-height:1.5;color:var(--slate-light)}
+@media(max-width:600px){.roof-cta{padding:22px;flex-direction:column;align-items:flex-start}.roof-cta .btn{width:100%}}
+.leaflet-container{font:inherit}
+
+/* The "your roof, not your bill, is the limit" note in the calculator. */
+.roof-note{margin:0 0 20px;padding:12px 14px;background:rgba(245,183,30,.16);border-left:3px solid var(--gold);
+  border-radius:10px;font-size:.82rem;line-height:1.55;color:#fff}
+
+/* Kept out of the desktop header, which has no room for a seventh link. */
+.nl.mobile-only{display:none}
+
+@media(max-width:1000px){
+  .roof-grid{grid-template-columns:1fr}
+  .roof-map{min-height:380px}
+}
+@media(max-width:760px){
+  .roof-steps{grid-template-columns:1fr;gap:14px}
+  .roof-mapwrap{padding:14px}
+  .roof-side{padding:26px}
+  .roof-map{min-height:320px}
+  /* iOS Safari force-zooms the page when a focused input is under 16px. */
+  .roof-search input{font-size:16px}
+  nav.main a.nl.mobile-only{display:block}
 }
