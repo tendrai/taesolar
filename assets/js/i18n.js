@@ -17,8 +17,9 @@
 const I18N = {
   en: {
     _label: 'English', _flag: '🇬🇧', _dir: 'ltr',
-    'nav.residential':'Residential','nav.commercial':'Commercial','nav.calculator':'Savings Calculator',
-    'nav.about':'About','nav.blog':'Blog','nav.contact':'Contact','nav.quote':'Get a Quote',
+    'nav.residential':'Residential','nav.commercial':'Commercial','nav.calculator':'Calculator',
+    'nav.about':'About','nav.blog':'Blog','nav.contact':'Contact','nav.quote':'Get a Quote','nav.projects':'Projects',
+    'proj.eyebrow':'Recent Projects','proj.h2':'Work we have actually done','proj.lead':'From a family roof in Kathu to a 250 kW college rooftop and an off-grid farmhouse. Real installations by our own team.','proj.cta':'See all projects',
     'nav.roof':'Measure Roof or Land',
     'nav.home':'Home','nav.services':'Services',
 
@@ -29,10 +30,11 @@ const I18N = {
     'hero.cta1':'Get a Free Quote','hero.cta2':'Measure My Roof or Land',
     'hero.t1':'Established 2020 · Phuket office','hero.t2':'Real local team, not a call centre','hero.t3':'10+ years of solar experience',
 
-    'card.title':'Get your free solar estimate','card.sub':'Tell us about your property and we\'ll come back with honest advice and a tailored quote.',
-    'card.mini':'No obligation · Reply within 1 working day',
+    'card.title':'Talk to a real installer today','card.sub':'Message us on LINE or call the office. No forms, no obligation.',
+    'card.line':'Chat with us on LINE','card.qr':'On a computer? Scan to add us on LINE.',
+    'card.mini':'Monday to Saturday, 9:00 to 18:00 · Free site survey',
 
-    'strip.label':'Trusted technology partners:','strip.huawei':'Huawei — Official Agent',
+    'strip.label':'Trusted technology partners:','strip.huawei':'Official Agent','loc.line':'Add us on LINE',
 
     'paths.eyebrow':'Which are you?','paths.h2':'Solar built around how you use power',
     'paths.lead':'Homes and businesses have very different needs. Choose your path and we\'ll show you exactly what\'s involved.',
@@ -110,7 +112,7 @@ const I18N = {
 
     'loc.eyebrow':'Find Us','loc.h2':'A real office in Kathu, Phuket',
     'loc.lead':'We\'re not a call centre or a middleman. Come and meet the team, see the equipment, and talk to the people who will actually install your system.',
-    'loc.office':'Office','loc.sales':'Sales (Thai & English)','loc.tech':'Technical inquiries','loc.email':'Email','loc.hours':'Opening hours',
+    'loc.office':'Office','loc.sales':'Office (Thai & English)','loc.tech':'Technical inquiries','loc.email':'Email','loc.hours':'Opening hours',
     'loc.hours.v':'Monday–Saturday, 9:00–18:00',
 
     'faq.eyebrow':'Common Questions','faq.h2':'Solar in Thailand, answered simply',
@@ -130,13 +132,14 @@ const I18N = {
     'foot.explore':'Explore','foot.contact':'Contact','foot.legal':'Legal',
     'foot.privacy':'Privacy policy','foot.terms':'Terms of service','foot.rights':'All rights reserved.',
     'foot.company':'TAE 2020 (Thailand) Ltd.',
-    'mob.call':'Call','mob.quote':'Free Quote'
+    'mob.call':'Call','mob.quote':'Free Quote','mob.line':'Chat on LINE'
   },
 
   th: {
     _label:'ไทย', _flag:'🇹🇭', _dir:'ltr',
-    'nav.residential':'บ้านพักอาศัย','nav.commercial':'เชิงพาณิชย์','nav.calculator':'คำนวณเงินที่ประหยัดได้',
-    'nav.about':'เกี่ยวกับเรา','nav.blog':'บทความ','nav.contact':'ติดต่อเรา','nav.quote':'ขอใบเสนอราคา',
+    'nav.residential':'บ้านพักอาศัย','nav.commercial':'เชิงพาณิชย์','nav.calculator':'เครื่องคำนวณ',
+    'nav.about':'เกี่ยวกับเรา','nav.blog':'บทความ','nav.contact':'ติดต่อเรา','nav.quote':'ขอใบเสนอราคา','nav.projects':'ผลงาน',
+    'proj.eyebrow':'ผลงานล่าสุด','proj.h2':'งานที่เราติดตั้งจริง','proj.lead':'ตั้งแต่หลังคาบ้านที่กะทู้ ไปจนถึงระบบ 250 kW บนหลังคาวิทยาลัย และบ้านไร่แบบออฟกริด ผลงานติดตั้งจริงโดยทีมของเราเอง','proj.cta':'ดูผลงานทั้งหมด',
     'nav.roof':'วัดหลังคาหรือที่ดิน',
     'nav.home':'หน้าแรก','nav.services':'บริการ',
 
@@ -147,10 +150,11 @@ const I18N = {
     'hero.cta1':'ขอใบเสนอราคาฟรี','hero.cta2':'วัดหลังคาหรือที่ดิน',
     'hero.t1':'ก่อตั้งปี 2563 · สำนักงานในภูเก็ต','hero.t2':'ทีมงานท้องถิ่นจริง ไม่ใช่คอลเซ็นเตอร์','hero.t3':'ประสบการณ์มากกว่า 10 ปี',
 
-    'card.title':'รับการประเมินโซลาร์ฟรี','card.sub':'บอกรายละเอียดบ้านหรือธุรกิจของคุณ แล้วเราจะให้คำแนะนำตามจริงพร้อมใบเสนอราคา',
-    'card.mini':'ไม่มีข้อผูกมัด · ตอบกลับภายใน 1 วันทำการ',
+    'card.title':'คุยกับช่างติดตั้งตัวจริงได้เลยวันนี้','card.sub':'ทักเราทาง LINE หรือโทรหาสำนักงาน ไม่ต้องกรอกฟอร์ม ไม่มีข้อผูกมัด',
+    'card.line':'แชทกับเราทาง LINE','card.qr':'ใช้คอมพิวเตอร์อยู่? สแกนเพื่อเพิ่มเพื่อนทาง LINE',
+    'card.mini':'จันทร์–เสาร์ 9:00–18:00 น. · สำรวจหน้างานฟรี',
 
-    'strip.label':'พันธมิตรด้านเทคโนโลยีที่เชื่อถือได้:','strip.huawei':'Huawei — ตัวแทนอย่างเป็นทางการ',
+    'strip.label':'พันธมิตรด้านเทคโนโลยีที่เชื่อถือได้:','strip.huawei':'ตัวแทนอย่างเป็นทางการ','loc.line':'เพิ่มเพื่อนทาง LINE',
 
     'paths.eyebrow':'คุณคือใคร?','paths.h2':'ระบบโซลาร์ที่ออกแบบตามการใช้ไฟของคุณ',
     'paths.lead':'บ้านและธุรกิจมีความต้องการต่างกันมาก เลือกเส้นทางของคุณแล้วเราจะอธิบายทุกขั้นตอน',
@@ -228,7 +232,7 @@ const I18N = {
 
     'loc.eyebrow':'ที่ตั้งของเรา','loc.h2':'สำนักงานจริงที่กะทู้ ภูเก็ต',
     'loc.lead':'เราไม่ใช่คอลเซ็นเตอร์หรือคนกลาง เชิญเข้ามาพบทีมงาน ดูอุปกรณ์ และพูดคุยกับคนที่จะติดตั้งระบบให้คุณจริง ๆ',
-    'loc.office':'สำนักงาน','loc.sales':'ฝ่ายขาย (ไทย & อังกฤษ)','loc.tech':'ฝ่ายเทคนิค','loc.email':'อีเมล','loc.hours':'เวลาทำการ',
+    'loc.office':'สำนักงาน','loc.sales':'สำนักงาน (ไทย & อังกฤษ)','loc.tech':'ฝ่ายเทคนิค','loc.email':'อีเมล','loc.hours':'เวลาทำการ',
     'loc.hours.v':'จันทร์–เสาร์ 9:00–18:00 น.',
 
     'faq.eyebrow':'คำถามที่พบบ่อย','faq.h2':'เรื่องโซลาร์ในไทย เข้าใจง่าย ๆ',
@@ -248,13 +252,14 @@ const I18N = {
     'foot.explore':'เมนู','foot.contact':'ติดต่อ','foot.legal':'ข้อกำหนด',
     'foot.privacy':'นโยบายความเป็นส่วนตัว','foot.terms':'เงื่อนไขการให้บริการ','foot.rights':'สงวนลิขสิทธิ์',
     'foot.company':'บริษัท ทีเออี 2020 (ประเทศไทย) จำกัด',
-    'mob.call':'โทร','mob.quote':'ขอราคา'
+    'mob.call':'โทร','mob.quote':'ขอราคา','mob.line':'แชท LINE'
   },
 
   ru: {
     _label:'Русский', _flag:'🇷🇺', _dir:'ltr',
-    'nav.residential':'Для дома','nav.commercial':'Для бизнеса','nav.calculator':'Калькулятор экономии',
-    'nav.about':'О нас','nav.blog':'Блог','nav.contact':'Контакты','nav.quote':'Получить расчёт',
+    'nav.residential':'Для дома','nav.commercial':'Для бизнеса','nav.calculator':'Калькулятор',
+    'nav.about':'О нас','nav.blog':'Блог','nav.contact':'Контакты','nav.quote':'Получить расчёт','nav.projects':'Проекты',
+    'proj.eyebrow':'Недавние проекты','proj.h2':'Работы, которые мы действительно выполнили','proj.lead':'От крыши семейного дома в Катху до кровельной системы колледжа на 250 кВт и автономного фермерского дома. Реальные установки нашей команды.','proj.cta':'Все проекты',
     'nav.roof':'Замер крыши или участка',
     'nav.home':'Главная','nav.services':'Услуги',
 
@@ -265,10 +270,11 @@ const I18N = {
     'hero.cta1':'Бесплатный расчёт','hero.cta2':'Замерить крышу или участок',
     'hero.t1':'Основана в 2020 · офис на Пхукете','hero.t2':'Реальная местная команда, не колл-центр','hero.t3':'Более 10 лет опыта',
 
-    'card.title':'Бесплатная оценка солнечной системы','card.sub':'Расскажите о вашем объекте — мы дадим честный совет и индивидуальный расчёт.',
-    'card.mini':'Без обязательств · Ответим за 1 рабочий день',
+    'card.title':'Поговорите с настоящим установщиком уже сегодня','card.sub':'Напишите нам в LINE или позвоните в офис. Без форм и обязательств.',
+    'card.line':'Написать нам в LINE','card.qr':'За компьютером? Отсканируйте код, чтобы добавить нас в LINE.',
+    'card.mini':'Понедельник–суббота, 9:00–18:00 · Бесплатный осмотр объекта',
 
-    'strip.label':'Надёжные технологические партнёры:','strip.huawei':'Huawei — официальный агент',
+    'strip.label':'Надёжные технологические партнёры:','strip.huawei':'Официальный агент','loc.line':'Написать нам в LINE',
 
     'paths.eyebrow':'Что вам подходит?','paths.h2':'Солнечная система под ваш режим потребления',
     'paths.lead':'У домов и бизнеса совершенно разные задачи. Выберите свой вариант — мы покажем, что именно входит в работу.',
@@ -346,7 +352,7 @@ const I18N = {
 
     'loc.eyebrow':'Как нас найти','loc.h2':'Реальный офис в Катху, Пхукет',
     'loc.lead':'Мы не колл-центр и не посредник. Приезжайте познакомиться с командой, посмотреть оборудование и поговорить с теми, кто действительно установит вашу систему.',
-    'loc.office':'Офис','loc.sales':'Продажи (тайский и английский)','loc.tech':'Технические вопросы','loc.email':'Эл. почта','loc.hours':'Часы работы',
+    'loc.office':'Офис','loc.sales':'Офис (тайский и английский)','loc.tech':'Технические вопросы','loc.email':'Эл. почта','loc.hours':'Часы работы',
     'loc.hours.v':'Понедельник–суббота, 9:00–18:00',
 
     'faq.eyebrow':'Частые вопросы','faq.h2':'Просто о солнечной энергии в Таиланде',
@@ -366,13 +372,14 @@ const I18N = {
     'foot.explore':'Разделы','foot.contact':'Контакты','foot.legal':'Правовая информация',
     'foot.privacy':'Политика конфиденциальности','foot.terms':'Условия обслуживания','foot.rights':'Все права защищены.',
     'foot.company':'TAE 2020 (Thailand) Ltd.',
-    'mob.call':'Позвонить','mob.quote':'Расчёт'
+    'mob.call':'Позвонить','mob.quote':'Расчёт','mob.line':'Чат в LINE'
   },
 
   zh: {
     _label:'中文', _flag:'🇨🇳', _dir:'ltr',
-    'nav.residential':'家庭光伏','nav.commercial':'商业光伏','nav.calculator':'节省计算器',
-    'nav.about':'关于我们','nav.blog':'资讯','nav.contact':'联系我们','nav.quote':'获取报价',
+    'nav.residential':'家庭光伏','nav.commercial':'商业光伏','nav.calculator':'计算器',
+    'nav.about':'关于我们','nav.blog':'资讯','nav.contact':'联系我们','nav.quote':'获取报价','nav.projects':'项目案例',
+    'proj.eyebrow':'近期项目','proj.h2':'我们真正完成的工程','proj.lead':'从卡图的家庭屋顶，到学院 250 kW 屋顶系统，再到离网农舍。均由我们自己的团队安装。','proj.cta':'查看全部项目',
     'nav.roof':'测量屋顶或土地',
     'nav.home':'首页','nav.services':'服务',
 
@@ -383,10 +390,11 @@ const I18N = {
     'hero.cta1':'免费获取报价','hero.cta2':'测量屋顶或土地',
     'hero.t1':'成立于2020年 · 普吉办公室','hero.t2':'真正的本地团队，而非客服中心','hero.t3':'超过十年行业经验',
 
-    'card.title':'免费太阳能评估','card.sub':'告诉我们您的房产情况，我们将提供诚实的建议和量身定制的报价。',
-    'card.mini':'无需承诺 · 一个工作日内回复',
+    'card.title':'今天就与真正的安装工程师沟通','card.sub':'通过 LINE 联系我们或致电办公室。无需填表，无任何义务。',
+    'card.line':'通过 LINE 与我们聊天','card.qr':'正在使用电脑？扫码添加我们的 LINE。',
+    'card.mini':'周一至周六 9:00–18:00 · 免费上门勘察',
 
-    'strip.label':'值得信赖的技术合作伙伴：','strip.huawei':'华为 — 官方代理',
+    'strip.label':'值得信赖的技术合作伙伴：','strip.huawei':'官方代理','loc.line':'通过 LINE 联系我们',
 
     'paths.eyebrow':'您属于哪一类？','paths.h2':'依据您的用电方式量身设计',
     'paths.lead':'住宅与企业的需求截然不同。选择适合您的方案，我们会详细说明整个流程。',
@@ -464,7 +472,7 @@ const I18N = {
 
     'loc.eyebrow':'找到我们','loc.h2':'普吉卡图的实体办公室',
     'loc.lead':'我们不是客服中心，也不是中间商。欢迎前来与团队见面、查看设备，并与真正为您施工的人员当面沟通。',
-    'loc.office':'办公室','loc.sales':'销售（泰语与英语）','loc.tech':'技术咨询','loc.email':'电子邮件','loc.hours':'营业时间',
+    'loc.office':'办公室','loc.sales':'办公室（泰语与英语）','loc.tech':'技术咨询','loc.email':'电子邮件','loc.hours':'营业时间',
     'loc.hours.v':'周一至周六 9:00–18:00',
 
     'faq.eyebrow':'常见问题','faq.h2':'泰国太阳能，简单说清楚',
@@ -484,7 +492,7 @@ const I18N = {
     'foot.explore':'导航','foot.contact':'联系方式','foot.legal':'法律信息',
     'foot.privacy':'隐私政策','foot.terms':'服务条款','foot.rights':'版权所有。',
     'foot.company':'TAE 2020 (Thailand) Ltd.',
-    'mob.call':'致电','mob.quote':'免费报价'
+    'mob.call':'致电','mob.quote':'免费报价','mob.line':'LINE 聊天'
   }
 };
 
@@ -533,15 +541,21 @@ const I18n = (() => {
       b.setAttribute('aria-current', b.dataset.lang === current ? 'true' : 'false');
     });
 
-    // Keep language across internal links so navigation doesn't reset it
+    // Keep language across internal links so navigation doesn't reset it.
+    // Only the query string is touched: the author's relative path is kept
+    // as-is, so the site still works when served from a sub-folder or a
+    // preview host rather than the domain root.
     document.querySelectorAll('a[href]').forEach(a => {
       const href = a.getAttribute('href');
       if(!href || href.startsWith('#') || href.startsWith('http') ||
-         href.startsWith('mailto:') || href.startsWith('tel:')) return;
-      const u = new URL(href, location.href);
-      if(current === 'en') u.searchParams.delete('lang');
-      else u.searchParams.set('lang', current);
-      a.setAttribute('href', u.pathname + u.search + u.hash);
+         href.startsWith('mailto:') || href.startsWith('tel:') ||
+         a.hasAttribute('data-lightbox')) return;
+      const m = href.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+      const params = new URLSearchParams(m[2] || '');
+      if(current === 'en') params.delete('lang');
+      else params.set('lang', current);
+      const q = params.toString();
+      a.setAttribute('href', m[1] + (q ? '?' + q : '') + (m[3] || ''));
     });
 
     document.dispatchEvent(new CustomEvent('langchange', {detail:{lang:current}}));

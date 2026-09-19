@@ -1,4 +1,5 @@
-﻿.DS_Store
+.DS_Store
 Thumbs.db
 .vercel
 node_modules/
+_to_delete/

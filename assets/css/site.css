@@ -567,3 +567,119 @@ footer.site .bottom{display:flex;justify-content:space-between;gap:16px;flex-wra
   .roof-search input{font-size:16px}
   nav.main a.nl.mobile-only{display:block}
 }
+
+/* Brand logo (assets/img/logo) --------------------------------------------- */
+/* White wordmark over the hero and the dark footer; dark wordmark once the
+   header turns solid (interior pages) or picks up its white background on scroll. */
+.logo img{display:block;height:52px;width:auto}
+.logo .logo-dark{display:none}
+header.site.scrolled .logo .logo-light,header.site.solid .logo .logo-light{display:none}
+header.site.scrolled .logo .logo-dark,header.site.solid .logo .logo-dark{display:block}
+header.site.scrolled .logo img{height:42px}
+footer.site .logo img{height:52px}
+
+/* Partner logos (assets/img/brands) */
+.strip .brand-logo{display:block;height:28px;width:auto;filter:grayscale(1);opacity:.72;transition:.25s var(--ease)}
+.strip .brand-logo:hover{filter:none;opacity:1}
+.strip .badge-pill .brand-logo{height:22px;filter:none;opacity:1}
+/* Stacked marks (icon above wordmark) need more height to stay legible */
+.strip .brand-logo.tall{height:46px}
+.brand-row img.tall{height:58px}
+.brand-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(1.4rem,4vw,3.4rem);margin-top:38px}
+.brand-row img{height:34px;width:auto}
+
+/* LINE QR on the contact page */
+.line-qr{display:block;width:112px;height:112px;margin-top:10px;border:1px solid var(--line);border-radius:10px}
+
+@media(max-width:760px){
+  .logo img,header.site.scrolled .logo img{height:40px}
+  footer.site .logo img{height:40px}
+  .strip .brand-logo{height:22px}
+  .strip .brand-logo.tall{height:38px}
+  .brand-row img.tall{height:44px}
+  .brand-row img{height:26px}
+}
+
+/* Photo hero (index) ------------------------------------------------------- */
+/* The photo sits under the existing left-to-right gradient, so the copy stays
+   readable on the left and the array shows through on the right. On phones
+   the columns stack, so flatten the overlay into a plain dark wash. */
+.hero .bg img{object-fit:cover;object-position:72% 50%}
+@media(max-width:760px){
+  .hero::after{background:linear-gradient(180deg,rgba(6,36,88,.9) 0%,rgba(10,61,145,.86) 100%)}
+}
+
+/* Path cards with photo backgrounds ----------------------------------------- */
+.path{min-height:400px}
+.path .path-bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:.6s var(--ease)}
+.path:hover .path-bg{transform:scale(1.04)}
+.path.res::after{background:linear-gradient(180deg,rgba(10,61,145,.22) 0%,rgba(6,36,88,.88) 50%,rgba(6,36,88,.97) 100%)}
+.path.com::after{background:linear-gradient(180deg,rgba(15,92,74,.22) 0%,rgba(6,42,69,.88) 50%,rgba(6,42,69,.97) 100%)}
+
+/* Photo rows (home teaser, about team, residential/commercial) -------------- */
+.photo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.photo-row figure{margin:0}
+.photo-row .ph{display:block;aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);background:var(--bg-soft)}
+.photo-row .ph.portrait{aspect-ratio:4/5}
+.photo-row .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
+.photo-row a.ph:hover img{transform:scale(1.04)}
+.photo-row figcaption{margin-top:10px;font-size:.88rem;color:var(--slate);line-height:1.5}
+.photo-row figcaption b{display:block;font-family:'Sora',sans-serif;color:var(--ink);font-size:.95rem;margin-bottom:2px}
+
+/* Projects page -------------------------------------------------------------- */
+.project{padding:44px 0 52px;border-top:1px solid var(--line)}
+.project:first-of-type{border-top:0;padding-top:20px}
+.project-head{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap;margin-bottom:22px}
+.project-head h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}
+.project-head p{color:var(--slate);max-width:64ch;margin-top:.55rem;font-size:.97rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;flex:0 0 auto;padding-top:6px}
+.chip{display:inline-flex;align-items:center;background:var(--blue-050);color:var(--blue-800);font-family:'Sora',sans-serif;font-weight:600;font-size:.76rem;padding:.38rem .75rem;border-radius:999px;white-space:nowrap}
+.chip.gold{background:var(--gold-050);color:var(--gold-dark)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gallery .gi{display:block;aspect-ratio:4/3;overflow:hidden;border-radius:14px;background:var(--bg-soft);border:1px solid var(--line)}
+.gallery .gi img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
+.gallery .gi:hover img{transform:scale(1.04)}
+
+/* Lightbox ------------------------------------------------------------------- */
+dialog.lightbox{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:auto;height:auto;overflow:visible}
+dialog.lightbox::backdrop{background:rgba(6,20,45,.93)}
+dialog.lightbox figure{margin:0;display:grid;justify-items:center;gap:12px}
+dialog.lightbox img{max-width:min(94vw,1400px);max-height:82vh;object-fit:contain;border-radius:12px;box-shadow:var(--shadow-lg);background:#000}
+dialog.lightbox figcaption{color:rgba(255,255,255,.85);font-size:.9rem;text-align:center;max-width:70ch;padding:0 56px}
+dialog.lightbox button{position:fixed;z-index:1;background:rgba(255,255,255,.14);color:#fff;border:0;width:46px;height:46px;border-radius:50%;
+  font-size:1.9rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:.2s}
+dialog.lightbox button:hover{background:rgba(255,255,255,.28)}
+dialog.lightbox .lb-close{top:18px;right:18px}
+dialog.lightbox .lb-prev{left:18px;top:50%;transform:translateY(-50%)}
+dialog.lightbox .lb-next{right:18px;top:50%;transform:translateY(-50%)}
+dialog.lightbox button[hidden]{display:none}
+
+@media(max-width:1000px){
+  .gallery{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .path{min-height:340px}
+  .photo-row{grid-template-columns:1fr}
+  .photo-row .ph.portrait{aspect-ratio:4/3}
+  .gallery{grid-template-columns:1fr 1fr;gap:10px}
+  .gallery .gi{border-radius:10px}
+  .project-head{gap:14px}
+  dialog.lightbox img{max-height:70vh}
+  dialog.lightbox figcaption{padding:0 12px}
+  dialog.lightbox button{width:40px;height:40px;font-size:1.6rem}
+}
+
+/* LINE button + lean hero contact card ------------------------------------- */
+.btn-line{background:#06C755;color:#fff;box-shadow:0 6px 18px rgba(6,199,85,.32)}
+.btn-line:hover{background:#05b24c;transform:translateY(-2px)}
+.btn-line svg{width:20px;height:20px}
+.hero-card .btn-block{padding-left:1rem;padding-right:1rem}
+.hero-card .btn-block+.btn-block{margin-top:10px}
+.hero-card .btn-outline{border-color:var(--line);font-size:1.02rem;letter-spacing:.01em}
+.hero-card .btn-outline svg{width:18px;height:18px}
+.card-qr{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:.82rem;color:var(--slate);line-height:1.45}
+.card-qr img{width:84px;height:84px;border:1px solid var(--line);border-radius:8px;flex:0 0 auto}
+.mobile-cta .btn-line{flex:1.2}
+@media(max-width:760px){
+  .card-qr{display:none}  /* on a phone you just tap the button */
+}

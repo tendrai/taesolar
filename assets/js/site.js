@@ -487,10 +487,52 @@ function initChrome(){
   if(yr) yr.textContent = new Date().getFullYear();
 }
 
+/* --- Lightbox (projects page) --------------------------------------------
+   Any <a data-lightbox="group" href="full.jpg"> opens in a native <dialog>.
+   No dependency; arrow keys and Escape work; clicking outside closes. */
+function initLightbox(){
+  const links = Array.from(document.querySelectorAll('a[data-lightbox]'));
+  if(!links.length || typeof HTMLDialogElement === 'undefined') return;
+  const dlg = document.createElement('dialog');
+  dlg.className = 'lightbox';
+  dlg.innerHTML = '<button type="button" class="lb-close" aria-label="Close">&times;</button>' +
+                  '<button type="button" class="lb-prev" aria-label="Previous">&#8249;</button>' +
+                  '<figure><img alt="" /><figcaption></figcaption></figure>' +
+                  '<button type="button" class="lb-next" aria-label="Next">&#8250;</button>';
+  document.body.appendChild(dlg);
+  const img = dlg.querySelector('img'), cap = dlg.querySelector('figcaption');
+  const prev = dlg.querySelector('.lb-prev'), next = dlg.querySelector('.lb-next');
+  let group = [], idx = 0;
+  function show(i){
+    idx = (i + group.length) % group.length;
+    const a = group[idx], thumb = a.querySelector('img');
+    img.src = a.getAttribute('href');
+    img.alt = thumb ? thumb.alt : '';
+    cap.textContent = a.dataset.caption || '';
+    prev.hidden = next.hidden = group.length < 2;
+  }
+  links.forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    group = links.filter(l => l.dataset.lightbox === a.dataset.lightbox);
+    show(group.indexOf(a));
+    dlg.showModal();
+  }));
+  dlg.querySelector('.lb-close').addEventListener('click', () => dlg.close());
+  prev.addEventListener('click', () => show(idx - 1));
+  next.addEventListener('click', () => show(idx + 1));
+  dlg.addEventListener('click', e => { if(e.target === dlg) dlg.close(); });
+  dlg.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight') show(idx + 1);
+    else if(e.key === 'ArrowLeft') show(idx - 1);
+  });
+  dlg.addEventListener('close', () => img.removeAttribute('src'));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   if(typeof I18n !== 'undefined') I18n.init();
   Money.init();
   initChrome();
   initCalculator();
   initForms();
+  initLightbox();
 });

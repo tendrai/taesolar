@@ -18,6 +18,7 @@ index.html                  Homepage — trust-first, calculator, reviews, map, 
 residential.html            Residential journey + lead form
 commercial.html             Commercial journey + lead form
 roof.html                   Roof measurement tool + calculator  ← new
+projects.html               Project galleries (6 projects, 28 photos) with a native <dialog> lightbox
 about.html                  Story, values, TAIS network, brand partners
 contact.html                Full lead form, contact details, map, FAQ
 blog/
@@ -30,6 +31,14 @@ assets/js/i18n.js           EN / TH / RU / ZH translation engine + dictionaries
 assets/js/site.js           Nav, scroll reveal, savings calculator, lead forms
 assets/js/roof.js           Roof tracing, area maths, capacity  ← new
 assets/vendor/leaflet.*     Vendored Leaflet 1.9.4 (roof.html only)  ← new
+assets/img/logo/            TAE Solar logo — white (hero/footer) and dark (solid header) variants
+assets/img/brands/          Partner logos: Huawei, Deye, LVTopsun, Longi, Jinko (transparent PNG)
+assets/img/home/            Team and installation photos, web-sized (1600px + 800px JPEG)
+assets/img/projects/        29 project photos from the Wix site, web-sized (1600px + 800px JPEG)
+assets/img/social/          LINE QR code, LinkedIn banner
+assets/img/og.jpg           Open Graph share image (1200x630)
+favicon.svg / favicon.png   Site icon (sun mark on brand blue)
+assets/img/src/             ORIGINALS as downloaded from the Wix site (~57 MB) — not referenced by any page
 ```
 
 **To preview:** open `index.html` in any browser.
