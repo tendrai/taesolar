@@ -42,6 +42,9 @@ assets/img/src/             ORIGINALS as downloaded from the Wix site (~57 MB) â
 ```
 
 **To preview:** open `index.html` in any browser.
+
+> **Caching:** `vercel.json` serves `assets/css` and `assets/js` with `max-age=0, must-revalidate` (they are not fingerprinted, so they must not be cached long), and `assets/img` + `assets/vendor` for a year. HTML references CSS/JS with `?v=<date>`; bump that value in all pages when you change site.css or the JS so browsers that cached the old immutable copies refetch.
+
 **To deploy:** upload the whole folder to any static host (Netlify, Cloudflare Pages, Vercel,
 or plain shared hosting). Nothing needs compiling.
 
