@@ -683,3 +683,8 @@ dialog.lightbox button[hidden]{display:none}
 @media(max-width:760px){
   .card-qr{display:none}  /* on a phone you just tap the button */
 }
+
+/* LINE elements are hidden until the company's real LINE ID is confirmed.
+   To enable: put the real link in every href="#" that sits on a .line-pending
+   element (and the QR image src), then delete the .line-pending class. */
+.line-pending{display:none!important}

@@ -30,7 +30,7 @@ const I18N = {
     'hero.cta1':'Get a Free Quote','hero.cta2':'Measure My Roof or Land',
     'hero.t1':'Established 2020 · Phuket office','hero.t2':'Real local team, not a call centre','hero.t3':'10+ years of solar experience',
 
-    'card.title':'Talk to a real installer today','card.sub':'Message us on LINE or call the office. No forms, no obligation.',
+    'card.title':'Talk to a real installer today','card.sub':'Call the office, or send us a few details and we will come back within one working day. No obligation.','card.quote':'Request a free quote',
     'card.line':'Chat with us on LINE','card.qr':'On a computer? Scan to add us on LINE.',
     'card.mini':'Monday to Saturday, 9:00 to 18:00 · Free site survey',
 
@@ -150,7 +150,7 @@ const I18N = {
     'hero.cta1':'ขอใบเสนอราคาฟรี','hero.cta2':'วัดหลังคาหรือที่ดิน',
     'hero.t1':'ก่อตั้งปี 2563 · สำนักงานในภูเก็ต','hero.t2':'ทีมงานท้องถิ่นจริง ไม่ใช่คอลเซ็นเตอร์','hero.t3':'ประสบการณ์มากกว่า 10 ปี',
 
-    'card.title':'คุยกับช่างติดตั้งตัวจริงได้เลยวันนี้','card.sub':'ทักเราทาง LINE หรือโทรหาสำนักงาน ไม่ต้องกรอกฟอร์ม ไม่มีข้อผูกมัด',
+    'card.title':'คุยกับช่างติดตั้งตัวจริงได้เลยวันนี้','card.sub':'โทรหาสำนักงาน หรือส่งรายละเอียดสั้น ๆ มาให้เรา แล้วเราจะติดต่อกลับภายใน 1 วันทำการ ไม่มีข้อผูกมัด','card.quote':'ขอใบเสนอราคาฟรี',
     'card.line':'แชทกับเราทาง LINE','card.qr':'ใช้คอมพิวเตอร์อยู่? สแกนเพื่อเพิ่มเพื่อนทาง LINE',
     'card.mini':'จันทร์–เสาร์ 9:00–18:00 น. · สำรวจหน้างานฟรี',
 
@@ -270,7 +270,7 @@ const I18N = {
     'hero.cta1':'Бесплатный расчёт','hero.cta2':'Замерить крышу или участок',
     'hero.t1':'Основана в 2020 · офис на Пхукете','hero.t2':'Реальная местная команда, не колл-центр','hero.t3':'Более 10 лет опыта',
 
-    'card.title':'Поговорите с настоящим установщиком уже сегодня','card.sub':'Напишите нам в LINE или позвоните в офис. Без форм и обязательств.',
+    'card.title':'Поговорите с настоящим установщиком уже сегодня','card.sub':'Позвоните в офис или отправьте нам несколько деталей, и мы ответим в течение одного рабочего дня. Без обязательств.','card.quote':'Запросить бесплатный расчёт',
     'card.line':'Написать нам в LINE','card.qr':'За компьютером? Отсканируйте код, чтобы добавить нас в LINE.',
     'card.mini':'Понедельник–суббота, 9:00–18:00 · Бесплатный осмотр объекта',
 
@@ -390,7 +390,7 @@ const I18N = {
     'hero.cta1':'免费获取报价','hero.cta2':'测量屋顶或土地',
     'hero.t1':'成立于2020年 · 普吉办公室','hero.t2':'真正的本地团队，而非客服中心','hero.t3':'超过十年行业经验',
 
-    'card.title':'今天就与真正的安装工程师沟通','card.sub':'通过 LINE 联系我们或致电办公室。无需填表，无任何义务。',
+    'card.title':'今天就与真正的安装工程师沟通','card.sub':'致电办公室，或留下几项信息，我们将在一个工作日内回复。无任何义务。','card.quote':'免费获取报价',
     'card.line':'通过 LINE 与我们聊天','card.qr':'正在使用电脑？扫码添加我们的 LINE。',
     'card.mini':'周一至周六 9:00–18:00 · 免费上门勘察',
 

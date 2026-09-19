@@ -35,7 +35,7 @@ assets/img/logo/            TAE Solar logo — white (hero/footer) and dark (sol
 assets/img/brands/          Partner logos: Huawei, Deye, LVTopsun, Longi, Jinko (transparent PNG)
 assets/img/home/            Team and installation photos, web-sized (1600px + 800px JPEG)
 assets/img/projects/        29 project photos from the Wix site, web-sized (1600px + 800px JPEG)
-assets/img/social/          LINE QR code, LinkedIn banner
+assets/img/social/          LinkedIn banner (the LINE QR from the Wix site resolved to an unrelated business and was removed)
 assets/img/og.jpg           Open Graph share image (1200x630)
 favicon.svg / favicon.png   Site icon (sun mark on brand blue)
 assets/img/src/             ORIGINALS as downloaded from the Wix site (~57 MB) — not referenced by any page
